@@ -1,0 +1,58 @@
+# Active la réécriture d'URL
+RewriteEngine On
+
+# Si le fichier ou dossier existe, le servir directement
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Sinon, rediriger vers index.php
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Désactiver l'affichage des fichiers
+Options -Indexes
+
+# Protection contre les injections
+<IfModule mod_headers.c>
+    # Protection XSS
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Empêcher le type MIME sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Protection contre le clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Limiter la taille des requêtes (protection DoS)
+LimitRequestBody 10485760
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquer l'accès aux fichiers de configuration
+<FilesMatch "\.(env|sql|json|lock|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache des ressources statiques
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Charset par défaut
+AddDefaultCharset UTF-8

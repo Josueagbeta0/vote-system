@@ -1,0 +1,56 @@
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Dépendances
+vendor/
+node_modules/
+composer.lock
+
+# Stockage local
+storage/logs/*
+storage/cache/*
+storage/sessions/*
+!storage/logs/.gitkeep
+!storage/cache/.gitkeep
+!storage/sessions/.gitkeep
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+public/uploads/candidates/*
+public/uploads/logos/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Test & Debug
+*.log
+public/debug*.php
+public/test.php
+public/fix_admin.php
+
+# Build & Dist
+dist/
+build/
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.orig
